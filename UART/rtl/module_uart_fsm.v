@@ -24,7 +24,7 @@ begin
     if (reset)
         state<=IDLE;
     else
-        state<=next_ state;
+        state<=next_state;
 end 
 
 always @(*)
