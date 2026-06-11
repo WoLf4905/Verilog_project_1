@@ -39,7 +39,7 @@ uart_fsm fsm(
 uart_baud_counter baud_ctr(
     .clk(clk),
     .reset(reset),
-    .enable(baud_enable),
+    .baud_enable(baud_enable),
     .baud_done(baud_done)
 );
 
