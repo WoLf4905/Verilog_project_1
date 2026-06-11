@@ -36,14 +36,14 @@ uart_fsm fsm(
     .bit_enable(bit_enable)
 );
 
-baud_counter baud_ctr(
+uart_baud_counter baud_ctr(
     .clk(clk),
     .reset(reset),
     .enable(baud_enable),
     .baud_done(baud_done)
 );
 
-shift_register shift_reg(
+uart_shift_register shift_reg(
     .clk(clk),
     .reset(reset),
     .load(load),
@@ -52,7 +52,7 @@ shift_register shift_reg(
     .tx_bit(tx_bit)
 );
 
-bit_counter bit_ctr(
+uart_bit_counter bit_ctr(
     .clk(clk),
     .reset(reset),
     .bit_enable(bit_enable),
