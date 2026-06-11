@@ -44,7 +44,7 @@ end
 
 initial
 begin   
-    $dumpfiles("uart.vcd");
+    $dumpfile("uart.vcd");
     $dumpvars(0,uart_tx_tb);
 end
 endmodule
