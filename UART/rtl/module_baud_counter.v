@@ -1,13 +1,13 @@
 module uart_baud_counter(
-    input clk;
-    input reset;
-    input baud_enable;
+    input clk,
+    input reset,
+    input baud_enable,
 
-    output reg baud_done;  
+    output reg baud_done
 );
 
 reg [12:0] count;
-always @(sposedge clk or posedge reset)
+always @(posedge clk or posedge reset)
 begin
     if(reset)
     begin
@@ -17,7 +17,8 @@ begin
 
     else if(baud_enable)
     begin
-        if(count==5207)
+        //5207  orignally
+        if(count==10)
         begin
             count<=0;
             baud_done<=1;

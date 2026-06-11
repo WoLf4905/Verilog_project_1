@@ -4,7 +4,7 @@ module uart_shift_register(
     input load,
     input shift_enable,
     input [7:0] data_in,
-    output tx_bit
+    output wire  tx_bit
 );
 
 reg[7:0] shift_reg;
@@ -19,5 +19,5 @@ begin
         shift_reg<=shift_reg >>1;
 end
 
-assing tx_bit = shift_reg[0]
+assign tx_bit = shift_reg[0];
 endmodule

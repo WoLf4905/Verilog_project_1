@@ -9,7 +9,7 @@ module uart_fsm(
     output reg shift_enable,
     output reg load,
     output reg bit_enable,
-    output reg [1:0]state
+    output reg [1:0] state
 );
 
 parameter IDLE= 2'b00;
@@ -23,7 +23,7 @@ always @(posedge clk or posedge reset)
 begin 
     if (reset)
         state<=IDLE;
-    else:
+    else
         state<=next_ state;
 end 
 
@@ -58,7 +58,7 @@ begin
         begin
             baud_enable=1;
             shift_enable=baud_done;
-            bit_done=baud_done;
+            bit_enable=baud_done;
             if(bit_done)
             begin
                 next_state=STOP;
