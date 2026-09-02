@@ -7,7 +7,8 @@ module tb_top;
         .reset   (uart_bus.reset),
         .tx_start(uart_bus.tx_start),
         .tx_data (uart_bus.tx_data),
-        .tx      (uart_bus.tx)
+        .tx      (uart_bus.tx),
+        .tx_busy (uart_bus.tx_busy)
     );
 
     uart_driver driver;
@@ -49,6 +50,15 @@ module tb_top;
 
         wait(uart_bus.reset == 0);
 
+        driver.drive(tx);
+
+        tx.data = 8'hB5;
+        driver.drive(tx);
+
+        tx.data = 8'hC5;
+        driver.drive(tx);
+
+        tx.data = 8'hD5;
         driver.drive(tx);
 
     end

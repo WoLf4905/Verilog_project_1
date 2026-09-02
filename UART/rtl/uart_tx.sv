@@ -5,7 +5,8 @@ module uart_tx(
     input logic tx_start,
     input logic [7:0] tx_data,
 
-    output logic tx
+    output logic tx,
+    output logic tx_busy
 );
     typedef enum logic [1:0]{
         IDLE,
@@ -131,6 +132,9 @@ module uart_tx(
             default: tx=1'b1;
         endcase
     end
+
+    assign tx_busy = (state != IDLE);
+    
 endmodule
 
 
