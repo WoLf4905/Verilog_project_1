@@ -1,7 +1,16 @@
 class uart_monitor;
+
     virtual uart_if.TB vif;
-    function new(virtual uart_if.TB vif);
-        this.vif=vif;
+    mailbox #(uart_transaction) mon2sb;
+
+    function new(
+        virtual uart_if.TB vif,
+        mailbox #(uart_transaction) mon2sb
+    );
+
+        this.vif = vif;
+        this.mon2sb = mon2sb;
+
     endfunction
 
     task monitor();
@@ -34,6 +43,7 @@ class uart_monitor;
                 $display("ERROR: Invalid stop bit");
             else
                 $display("MONITOR: Received data = %h", tx.data);
+                mon2sb.put(tx);
         end
     endtask
 endclass

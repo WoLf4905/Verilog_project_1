@@ -14,6 +14,8 @@ module tb_top;
     uart_driver driver;
     uart_transaction tx;
     uart_monitor monitor;
+    mailbox #(uart_transaction) mon2sb;
+    uart_scoreboard scoreboard;
 
     initial begin
         uart_bus.clk = 0;
@@ -36,20 +38,26 @@ module tb_top;
     end
 
     initial 
-    begin
+    begin 
+        mon2sb = new();
 
         driver = new(uart_bus);
-        monitor = new(uart_bus);
-
+        monitor = new(uart_bus,mon2sb);
+        scoreboard = new(mon2sb);
         tx = new();
-        tx.data = 8'hA5;
+
+        fork
+            monitor.monitor();
+            scoreboard.run();
+        join_none
 
         fork
             monitor.monitor();
         join_none
 
         wait(uart_bus.reset == 0);
-
+        
+        tx.data = 8'hA5;
         driver.drive(tx);
 
         tx.data = 8'hB5;
