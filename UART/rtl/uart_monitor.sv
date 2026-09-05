@@ -42,8 +42,10 @@ class uart_monitor;
             if (vif.tx != 1'b1)
                 $display("ERROR: Invalid stop bit");
             else
+            begin
                 $display("MONITOR: Received data = %h", tx.data);
                 mon2sb.put(tx);
+            end
         end
     endtask
 endclass
