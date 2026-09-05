@@ -48,7 +48,6 @@ module tb_top;
         monitor = new(uart_bus,mon2sb);
         scoreboard = new(mon2sb, exp2sb);
         tx = new();
-        expected=new();
         
 
         fork
@@ -59,21 +58,25 @@ module tb_top;
         wait(uart_bus.reset == 0);
 
         tx.data = 8'hA5;
+        expected = new();
         expected.data = tx.data;
         exp2sb.put(expected);
         driver.drive(tx);
 
         tx.data = 8'hB5;
+        expected = new();
         expected.data = tx.data;
         exp2sb.put(expected);
         driver.drive(tx);
 
         tx.data = 8'hC5;
+        expected = new();
         expected.data = tx.data;
         exp2sb.put(expected);
         driver.drive(tx);
 
         tx.data = 8'hD5;
+        expected = new();
         expected.data = tx.data;
         exp2sb.put(expected);
         driver.drive(tx);
