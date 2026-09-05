@@ -51,12 +51,8 @@ module tb_top;
             scoreboard.run();
         join_none
 
-        fork
-            monitor.monitor();
-        join_none
-
         wait(uart_bus.reset == 0);
-        
+
         tx.data = 8'hA5;
         driver.drive(tx);
 
