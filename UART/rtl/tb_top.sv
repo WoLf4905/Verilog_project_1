@@ -12,12 +12,15 @@ module tb_top;
     );
 
     uart_driver driver;
-    uart_transaction tx;
-    uart_transaction expected;
+    // uart_transaction tx;
+    // uart_transaction expected;
     uart_monitor monitor;
+    uart_generator generator;
+    uart_scoreboard scoreboard;
+    mailbox #(uart_transaction) gen2drv;
     mailbox #(uart_transaction) mon2sb;
     mailbox #(uart_transaction) exp2sb;
-    uart_scoreboard scoreboard;
+    
 
     initial begin
         uart_bus.clk = 0;
@@ -43,43 +46,23 @@ module tb_top;
     begin 
         mon2sb = new();
         exp2sb = new();
+        gen2drv = new();
 
-        driver = new(uart_bus);
+        driver = new(uart_bus,gen2drv);
+        generator = new(gen2drv,exp2sb);
         monitor = new(uart_bus,mon2sb);
         scoreboard = new(mon2sb, exp2sb);
-        tx = new();
-        
 
         fork
+            generator.run();
+            driver.run();
             monitor.monitor();
             scoreboard.run();
         join_none
 
         wait(uart_bus.reset == 0);
 
-        tx.data = 8'hA5;
-        expected = new();
-        expected.data = tx.data;
-        exp2sb.put(expected);
-        driver.drive(tx);
-
-        tx.data = 8'hB5;
-        expected = new();
-        expected.data = tx.data;
-        exp2sb.put(expected);
-        driver.drive(tx);
-
-        tx.data = 8'hC5;
-        expected = new();
-        expected.data = tx.data;
-        exp2sb.put(expected);
-        driver.drive(tx);
-
-        tx.data = 8'hD5;
-        expected = new();
-        expected.data = tx.data;
-        exp2sb.put(expected);
-        driver.drive(tx);
+        
 
     end
 
